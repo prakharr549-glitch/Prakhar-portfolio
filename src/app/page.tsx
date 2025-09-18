@@ -8,7 +8,7 @@ export default async function Home() {
     const result = await generateAnimatedBackground({
       preferences: 'subtle, professional animation with flowing, geometric lines that are not too distracting',
     });
-    animationDataUri = result.animationDataUri;
+    animationDataUri = result.svgDataUri;
   } catch (error) {
     console.error('Failed to generate animated background:', error);
     // Fallback to a simple background if AI flow fails.
@@ -16,13 +16,16 @@ export default async function Home() {
   }
 
   const backgroundStyle = animationDataUri
-    ? { backgroundImage: `url("${animationDataUri}")` }
+    ? {
+        backgroundImage: `url("${animationDataUri}")`,
+        animation: 'background-scroll 20s linear infinite',
+      }
     : {};
 
   return (
     <div className="relative isolate min-h-screen w-full">
       <div
-        className="absolute inset-0 -z-10 h-full w-full bg-background bg-cover bg-center"
+        className="absolute inset-0 -z-10 h-full w-full bg-background bg-cover"
         style={backgroundStyle}
       />
       <div className="absolute inset-0 -z-10 h-full w-full bg-gradient-to-t from-background/80 via-background/50 to-transparent" />
